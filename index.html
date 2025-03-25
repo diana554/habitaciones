@@ -9,6 +9,13 @@
 </head>
 <body class="bg-gray-100 p-6">
     <h1 class="text-3xl font-bold text-center mb-6">Estancias en Finlandia</h1>
+    <div class="flex flex-wrap gap-4 mb-6">
+        <input id="location-input" type="text" placeholder="Ubicación..." class="p-2 border rounded">
+        <input id="adults-input" type="number" placeholder="Adultos" min="0" class="p-2 border rounded w-24">
+        <input id="children-input" type="number" placeholder="Niños" min="0" class="p-2 border rounded w-24">
+        <button id="search-btn" class="bg-blue-500 text-white px-4 py-2 rounded">Buscar</button>
+    </div>
+    
     <div id="gallery" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"></div>
 </body>
 </html>
