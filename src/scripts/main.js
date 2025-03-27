@@ -15,27 +15,43 @@ document.addEventListener("DOMContentLoaded", () => {
     const toggleButton = document.getElementById("toggleSearch");
     const searchContainer = document.getElementById("searchContainer");
 
+    // Hacer que el botón + solo aparezca en dispositivos móviles
+    toggleButton.classList.add("block", "md:hidden");
+    
+    // Ajustar tamaño del área de búsqueda en dispositivos móviles
+    searchContainer.classList.add("w-full", "md:w-auto", "p-4", "bg-white", "shadow-md", "rounded-lg", "max-w-lg", "md:max-w-none", "flex", "flex-col", "gap-4");
+
+    // Agregar opciones al select de huéspedes
+    guestsSelect.innerHTML = `
+        <option value="">Seleccionar huéspedes</option>
+        <option value="custom">Especificar cantidad</option>
+    `;
+
     // Crear contenedor para adultos y niños (inicialmente oculto)
     const guestsContainer = document.createElement("div");
-    guestsContainer.classList.add("hidden", "flex", "gap-2", "mt-2");
+    guestsContainer.classList.add("hidden", "flex", "gap-2", "mt-2", "flex-col", "md:flex-row");
     guestsSelect.insertAdjacentElement("afterend", guestsContainer);
 
-    const adultsInput = document.createElement("input");
-    adultsInput.type = "number";
-    adultsInput.id = "adults";
-    adultsInput.min = "1";
-    adultsInput.placeholder = "Adultos";
-    adultsInput.classList.add("p-2", "border", "border-gray-300", "rounded-md");
-    
-    const childrenInput = document.createElement("input");
-    childrenInput.type = "number";
-    childrenInput.id = "children";
-    childrenInput.min = "0";
-    childrenInput.placeholder = "Niños";
-    childrenInput.classList.add("p-2", "border", "border-gray-300", "rounded-md");
-    
-    guestsContainer.appendChild(adultsInput);
-    guestsContainer.appendChild(childrenInput);
+    function createGuestInputs() {
+        guestsContainer.innerHTML = ""; // Eliminar elementos previos para evitar duplicados
+
+        const adultsInput = document.createElement("input");
+        adultsInput.type = "number";
+        adultsInput.name = "adults";
+        adultsInput.min = "1";
+        adultsInput.placeholder = "Adultos";
+        adultsInput.classList.add("p-2", "border", "border-gray-300", "rounded-md", "w-full");
+        
+        const childrenInput = document.createElement("input");
+        childrenInput.type = "number";
+        childrenInput.name = "children";
+        childrenInput.min = "0";
+        childrenInput.placeholder = "Niños";
+        childrenInput.classList.add("p-2", "border", "border-gray-300", "rounded-md", "w-full");
+        
+        guestsContainer.appendChild(adultsInput);
+        guestsContainer.appendChild(childrenInput);
+    }
 
     if (!galleryContainer) {
         console.error("No se encontró el contenedor de la galería");
@@ -66,22 +82,30 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function filterStays() {
-        const locationValue = locationInput.value.toLowerCase();
-        const adultsValue = parseInt(adultsInput.value) || 0;
-        const childrenValue = parseInt(childrenInput.value) || 0;
-        const totalGuests = adultsValue + childrenValue;
+        searchButton.innerHTML = "🔄 Buscando...";
+        searchButton.disabled = true;
 
-        const filtered = stays.filter(stay => {
-            const matchesLocation = locationValue ? stay.city.toLowerCase().includes(locationValue) || stay.country.toLowerCase().includes(locationValue) : true;
-            const matchesTotalGuests = totalGuests ? stay.maxGuests >= totalGuests : true;
-            return matchesLocation && matchesTotalGuests;
-        });
+        setTimeout(() => {
+            const locationValue = locationInput.value.toLowerCase();
+            const adultsValue = parseInt(document.querySelector("input[name='adults']")?.value) || 0;
+            const childrenValue = parseInt(document.querySelector("input[name='children']")?.value) || 0;
+            const totalGuests = adultsValue + childrenValue;
 
-        renderStays(filtered);
+            const filtered = stays.filter(stay => {
+                const matchesLocation = locationValue ? stay.city.toLowerCase().includes(locationValue) || stay.country.toLowerCase().includes(locationValue) : true;
+                const matchesTotalGuests = totalGuests ? stay.maxGuests >= totalGuests : true;
+                return matchesLocation && matchesTotalGuests;
+            });
+
+            renderStays(filtered);
+            searchButton.innerHTML = "🔍 Buscar";
+            searchButton.disabled = false;
+        }, 1000);
     }
 
     guestsSelect.addEventListener("change", () => {
-        if (guestsSelect.value) {
+        if (guestsSelect.value === "custom") {
+            createGuestInputs();
             guestsContainer.classList.remove("hidden");
         } else {
             guestsContainer.classList.add("hidden");
@@ -90,9 +114,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     toggleButton.addEventListener("click", () => {
         searchContainer.classList.toggle("hidden");
+        searchContainer.classList.toggle("w-full");
     });
 
     searchButton.addEventListener("click", filterStays);
-    renderStays(stays); // Renderiza todas las estancias al cargar la página
+    searchButton.addEventListener("mouseenter", () => {
+        searchButton.classList.add("bg-blue-600", "scale-105", "transition", "duration-300");
+    });
+    
+    searchButton.addEventListener("mouseleave", () => {
+        searchButton.classList.remove("bg-blue-600", "scale-105");
+    });
+
+    renderStays(stays);
 });
 

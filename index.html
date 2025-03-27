@@ -1,35 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./src/styles/output.css">
-    <title>PF Windbnd Vanilla</title>
+    <title>Estancias</title>
     <script type="module" src="./src/scripts/main.js" defer></script>
 </head>
 <body class="bg-gray-100 p-6">
-    <h1 class="text-3xl font-bold text-center mb-6">Estancias en Finlandia</h1>
+    <h1 class="text-3xl font-bold text-center mb-6">Estancias en Filipinas</h1>
 
-    <!-- Botón para mostrar/ocultar la búsqueda en móviles -->
-    <button id="toggleSearch" class="md:hidden p-2 bg-blue-500 text-white rounded-full">
-        +
+    <!-- Botón de búsqueda en móviles -->
+    <button id="toggleSearch" class="block md:hidden bg-blue-500 text-white px-4 py-2 rounded-lg mb-4 mx-auto">
+        ➕ Buscar
     </button>
 
-    <!-- Área de búsqueda y filtrado -->
-    <div id="searchContainer" class="hidden md:flex flex-col md:flex-row gap-4 bg-white p-4 rounded-lg shadow-md mb-6">
-        <input type="text" id="location" placeholder="Ubicación" class="p-2 border border-gray-300 rounded-md w-full md:w-auto">
+    <!-- Contenedor de búsqueda -->
+    <div id="searchContainer" class="hidden md:flex flex-col md:flex-row items-center justify-center gap-4 p-4 bg-white shadow-lg rounded-lg w-full md:w-auto mx-auto max-w-lg">
+        <input id="location" type="text" placeholder="Ubicación" class="p-2 border border-gray-300 rounded-md w-full md:w-48">
         
-        <select id="guests" class="p-2 border border-gray-300 rounded-md w-full md:w-auto">
-            <option value="">Huéspedes</option>
-            <option value="custom">Seleccionar cantidad</option>
+        <select id="guests" class="p-2 border border-gray-300 rounded-md w-full md:w-48">
+            <option value="">Seleccionar huéspedes</option>
+            <option value="custom">Especificar cantidad</option>
         </select>
 
-        <button id="search" class="bg-blue-500 text-white p-2 rounded-md w-full md:w-auto">
+        <div id="guestsContainer" class="hidden flex-col md:flex-row gap-2 w-full md:w-auto">
+            <input type="number" name="adults" min="1" placeholder="Adultos" class="p-2 border border-gray-300 rounded-md w-full">
+            <input type="number" name="children" min="0" placeholder="Niños" class="p-2 border border-gray-300 rounded-md w-full">
+        </div>
+
+        <button id="search" class="bg-blue-500 text-white px-4 py-2 rounded-lg transition duration-300 hover:bg-blue-600 hover:scale-105">
             🔍 Buscar
         </button>
     </div>
 
-    <!-- Contenedor de la galería -->
-    <div id="gallery" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"></div>
+    <!-- Galería de estancias -->
+    <div id="gallery" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-6"></div>
 </body>
 </html>
+
+
