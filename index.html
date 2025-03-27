@@ -9,24 +9,27 @@
 </head>
 <body class="bg-gray-100 p-6">
     <h1 class="text-3xl font-bold text-center mb-6">Estancias en Finlandia</h1>
-    <div class="mb-6 flex flex-col sm:flex-row items-center justify-center gap-4">
-        <input type="text" id="location" placeholder="Ubicación" class="p-2 border border-gray-300 rounded-md w-full sm:w-1/4">
-        <select id="guests" class="p-2 border border-gray-300 rounded-md w-full sm:w-1/6">
+
+    <!-- Botón para mostrar/ocultar la búsqueda en móviles -->
+    <button id="toggleSearch" class="md:hidden p-2 bg-blue-500 text-white rounded-full">
+        +
+    </button>
+
+    <!-- Área de búsqueda y filtrado -->
+    <div id="searchContainer" class="hidden md:flex flex-col md:flex-row gap-4 bg-white p-4 rounded-lg shadow-md mb-6">
+        <input type="text" id="location" placeholder="Ubicación" class="p-2 border border-gray-300 rounded-md w-full md:w-auto">
+        
+        <select id="guests" class="p-2 border border-gray-300 rounded-md w-full md:w-auto">
             <option value="">Huéspedes</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4+</option>
+            <option value="custom">Seleccionar cantidad</option>
         </select>
-        <input type="number" id="adults" min="1" placeholder="Adultos" class="p-2 border border-gray-300 rounded-md w-full sm:w-1/6">
-        <input type="number" id="children" min="0" placeholder="Niños" class="p-2 border border-gray-300 rounded-md w-full sm:w-1/6">
-        <button id="search" class="p-2 bg-blue-500 text-white rounded-md flex items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M8 2a6 6 0 0 1 4.472 9.944l4.897 4.898a1 1 0 0 1-1.415 1.414l-4.898-4.897A6 6 0 1 1 8 2zm0 2a4 4 0 1 0 0 8 4 4 0 0 0 0-8z" clip-rule="evenodd"/>
-            </svg>
-            Buscar
+
+        <button id="search" class="bg-blue-500 text-white p-2 rounded-md w-full md:w-auto">
+            🔍 Buscar
         </button>
     </div>
+
+    <!-- Contenedor de la galería -->
     <div id="gallery" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"></div>
 </body>
 </html>
